@@ -21,14 +21,14 @@
                 android:src="@drawable/back_nav_button"/>
 
             <TextView
-                android:id="@+id/total_errors"
+                android:id="@+id/total_attempts"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="end"
                 android:textColor="@color/black"
                 android:textSize="32sp"
-                tools:text="Errors: 20"/>
+                tools:text="Attempts left: 20"/>
 
         </LinearLayout>
 

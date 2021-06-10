@@ -52,8 +52,16 @@ class GameActivity : AppCompatActivity() {
             }
         }
 
-        gameViewModel.totalErrors.observe(this) {
-            binding.totalErrors.text = getString(R.string.errors_format, it)
+        gameViewModel.gameLost.observe(this) {
+            gameLost ->
+            if (gameLost) {
+                Toast.makeText(this, "You will get it next time!", Toast.LENGTH_SHORT).show()
+                finish()
+            }
+        }
+
+        gameViewModel.totalAttempts.observe(this) {
+            binding.totalAttempts.text = getString(R.string.attempts_format, it)
         }
 
         cardAdapter.setOnItemClickListener(object : CardAdapter.OnItemClickListener {

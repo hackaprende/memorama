@@ -16,6 +16,9 @@ private const val NUMBER_OF_ROWS_NORMAL = 5
 private const val NUMBER_OF_ROWS_HARD = 4
 private const val NUMBER_OF_ROWS_VERY_HARD = 4
 
+private const val TIME_TO_WAIT = 1000L
+private const val TOTAL_ATTEMPTS = 10
+
 class GameViewModel: ViewModel() {
     private var cardsShown = 0
 
@@ -27,9 +30,13 @@ class GameViewModel: ViewModel() {
     val gameWon: LiveData<Boolean>
         get() = _gameWon
 
-    private val _totalErrors = MutableLiveData<Int>()
-    val totalErrors: LiveData<Int>
-        get() = _totalErrors
+    private val _gameLost = MutableLiveData<Boolean>()
+    val gameLost: LiveData<Boolean>
+        get() = _gameLost
+
+    private val _totalAttempts = MutableLiveData<Int>()
+    val totalAttempts: LiveData<Int>
+        get() = _totalAttempts
 
     private val wonCards = mutableListOf<MemoryCard>()
 
@@ -40,7 +47,8 @@ class GameViewModel: ViewModel() {
     init {
         _gameCards.value = mutableListOf()
         _gameWon.value = false
-        _totalErrors.value = 0
+        _totalAttempts.value = TOTAL_ATTEMPTS
+        _gameLost.value = false
     }
 
     fun prepareGame(gameDifficulty: Int?) {
@@ -62,13 +70,18 @@ class GameViewModel: ViewModel() {
                     checkIfGameWon()
                     evaluatingClick = false
                 } else {
-                    _totalErrors.value = _totalErrors.value!! + 1
+                    _totalAttempts.value = _totalAttempts.value!! - 1
+
+                    if (_totalAttempts.value!! <= 0) {
+                        _gameLost.value = true
+                    }
+
                     val handler = Handler(Looper.getMainLooper())
                     val runnable = Runnable {
                         evaluatingClick = false
                         uncheckNotWonCards()
                     }
-                    handler.postDelayed(runnable, 1000)
+                    handler.postDelayed(runnable, TIME_TO_WAIT)
                 }
                 cardsShown = 0
             } else {
