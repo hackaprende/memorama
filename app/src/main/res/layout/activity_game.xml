@@ -5,14 +5,32 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="16dp"
         android:orientation="vertical">
 
-        <ImageView
-            android:id="@+id/back_game_button"
-            android:layout_width="64dp"
-            android:layout_height="64dp"
-            android:src="@drawable/back_nav_button"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/back_game_button"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:src="@drawable/back_nav_button"/>
+
+            <TextView
+                android:id="@+id/total_errors"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="end"
+                android:textColor="@color/black"
+                android:textSize="32sp"
+                tools:text="Errors: 20"/>
+
+        </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler"
@@ -20,10 +38,10 @@
             android:layout_height="wrap_content"
             android:clipToPadding="false"
             tools:listitem="@layout/card_item"
+            android:padding="16dp"
             tools:itemCount="5"
             tools:context=".game.GameActivity" />
 
     </LinearLayout>
-
 
 </layout>

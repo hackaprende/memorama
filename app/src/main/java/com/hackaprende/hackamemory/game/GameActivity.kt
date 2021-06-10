@@ -1,13 +1,11 @@
 package com.hackaprende.hackamemory.game
 
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
-import com.airbnb.lottie.LottieAnimationView
+import com.hackaprende.hackamemory.R
 import com.hackaprende.hackamemory.databinding.ActivityGameBinding
 
 class GameActivity : AppCompatActivity() {
@@ -49,6 +47,10 @@ class GameActivity : AppCompatActivity() {
             if (gameWon) {
                 Toast.makeText(this, "You won!!!!!!", Toast.LENGTH_SHORT).show()
             }
+        }
+
+        gameViewModel.totalErrors.observe(this) {
+            binding.totalErrors.text = getString(R.string.errors_format, it)
         }
 
         cardAdapter.setOnItemClickListener(object : CardAdapter.OnItemClickListener {

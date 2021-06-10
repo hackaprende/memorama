@@ -23,11 +23,15 @@ class GameViewModel: ViewModel() {
     val gameCards: LiveData<MutableList<MemoryCard>>
         get() = _gameCards
 
-    private val wonCards = mutableListOf<MemoryCard>()
-
     private val _gameWon = MutableLiveData<Boolean>()
     val gameWon: LiveData<Boolean>
         get() = _gameWon
+
+    private val _totalErrors = MutableLiveData<Int>()
+    val totalErrors: LiveData<Int>
+        get() = _totalErrors
+
+    private val wonCards = mutableListOf<MemoryCard>()
 
     private val repository = GameRepository()
 
@@ -36,6 +40,7 @@ class GameViewModel: ViewModel() {
     init {
         _gameCards.value = mutableListOf()
         _gameWon.value = false
+        _totalErrors.value = 0
     }
 
     fun prepareGame(gameDifficulty: Int?) {
@@ -57,6 +62,7 @@ class GameViewModel: ViewModel() {
                     checkIfGameWon()
                     evaluatingClick = false
                 } else {
+                    _totalErrors.value = _totalErrors.value!! + 1
                     val handler = Handler(Looper.getMainLooper())
                     val runnable = Runnable {
                         evaluatingClick = false
