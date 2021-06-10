@@ -7,6 +7,7 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
+import com.airbnb.lottie.LottieAnimationView
 import com.hackaprende.hackamemory.databinding.ActivityGameBinding
 
 class GameActivity : AppCompatActivity() {

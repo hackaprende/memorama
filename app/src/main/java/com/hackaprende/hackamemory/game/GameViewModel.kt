@@ -31,6 +31,8 @@ class GameViewModel: ViewModel() {
 
     private val repository = GameRepository()
 
+    private var evaluatingClick = false
+
     init {
         _gameCards.value = mutableListOf()
         _gameWon.value = false
@@ -42,23 +44,30 @@ class GameViewModel: ViewModel() {
     }
 
     fun evaluateClickedCard(cardIndex: Int, card: MemoryCard) {
-        cardsShown++
-        val gameCardList = _gameCards.value!!
-        gameCardList[cardIndex].isChecked = true
-        _gameCards.value = gameCardList
+        if (!evaluatingClick) {
+            evaluatingClick= true
+            cardsShown++
+            val gameCardList = _gameCards.value!!
+            gameCardList[cardIndex].isChecked = true
+            _gameCards.value = gameCardList
 
-        if (cardsShown == 2) {
-            if (cardIsPair(card)) {
-                wonCards.add(card)
-                checkIfGameWon()
-            } else {
-                val handler = Handler(Looper.getMainLooper())
-                val runnable = Runnable {
-                    uncheckNotWonCards()
+            if (cardsShown == 2) {
+                if (cardIsPair(card)) {
+                    wonCards.add(card)
+                    checkIfGameWon()
+                    evaluatingClick = false
+                } else {
+                    val handler = Handler(Looper.getMainLooper())
+                    val runnable = Runnable {
+                        evaluatingClick = false
+                        uncheckNotWonCards()
+                    }
+                    handler.postDelayed(runnable, 1000)
                 }
-                handler.postDelayed(runnable, 1000)
+                cardsShown = 0
+            } else {
+                evaluatingClick = false
             }
-            cardsShown = 0
         }
     }
 
