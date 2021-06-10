@@ -1,6 +1,9 @@
 package com.hackaprende.hackamemory.game
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import com.hackaprende.hackamemory.R
@@ -27,6 +30,9 @@ class GameActivity : AppCompatActivity() {
     }
 
     private var gameCards = mutableListOf<MemoryCard>()
+    private var wonCards = mutableSetOf<MemoryCard>()
+
+    private var cardsShown = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,13 +44,53 @@ class GameActivity : AppCompatActivity() {
         val gridLayoutManager = GridLayoutManager(this, getColumnSize())
         gameRecycler.layoutManager = gridLayoutManager
         gameRecycler.setHasFixedSize(true)
-        val cardAdapter = CardAdapter {
-            it.isChecked = true
-            
-        }
+        val cardAdapter = CardAdapter()
+
+        cardAdapter.setOnItemClickListener(object : CardAdapter.OnItemClickListener {
+            override fun onItemClicked(cardIndex: Int, card: MemoryCard) {
+                cardsShown++
+                gameCards[cardIndex].isChecked = true
+                cardAdapter.notifyItemChanged(cardIndex)
+
+                if (cardsShown == 2) {
+                    if (cardIsPair(card)) {
+                        wonCards.add(card)
+                    } else {
+                        val handler = Handler(Looper.getMainLooper())
+                        val runnable = Runnable {
+                            unCheckNotWonCards()
+                            cardAdapter.notifyDataSetChanged()
+                        }
+                        handler.postDelayed(runnable, 1000)
+                    }
+                    cardsShown = 0
+                }
+            }
+        })
+
         gameRecycler.adapter = cardAdapter
         gameCards = buildCardsForGame()
         cardAdapter.submitList(gameCards)
+    }
+
+    private fun unCheckNotWonCards() {
+        for (gameCard in gameCards) {
+            if (!wonCards.contains(gameCard)) {
+                gameCard.isChecked = false
+            }
+        }
+    }
+
+    private fun cardIsPair(card: MemoryCard): Boolean {
+        var checkedCount = 0
+
+        for (gameCard in gameCards) {
+            if (gameCard.imageId == card.imageId && gameCard.isChecked) {
+                checkedCount++
+            }
+        }
+
+        return checkedCount == 2
     }
 
     private fun getColumnSize(): Int {
@@ -70,15 +116,9 @@ class GameActivity : AppCompatActivity() {
 
     private fun buildCardsForGame(): MutableList<MemoryCard> {
         val allCards = getAllCards()
-        val cardList = mutableListOf<MemoryCard>()
         val numberOfRows = getRowSize()
 
-        var i = 0
-        while (i < numberOfRows * getColumnSize()) {
-            cardList.add(allCards[0])
-            i++
-        }
-
+        val cardList = allCards.subList(0, numberOfRows * getColumnSize())
         cardList.shuffle()
         return cardList
     }
