@@ -39,6 +39,10 @@ class GameActivity : AppCompatActivity() {
         val binding = ActivityGameBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        binding.backGameButton.setOnClickListener {
+            onBackPressed()
+        }
+
         val gameRecycler = binding.recycler
 
         val gridLayoutManager = GridLayoutManager(this, getColumnSize())
