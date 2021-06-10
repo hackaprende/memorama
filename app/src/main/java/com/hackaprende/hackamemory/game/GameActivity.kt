@@ -29,9 +29,12 @@ class GameActivity : AppCompatActivity() {
             onBackPressed()
         }
 
+        val gameDifficulty = intent.extras?.getInt(GAME_SIZE_KEY, GAME_SIZE_EASY)
+
         val gameRecycler = binding.recycler
 
-        val gridLayoutManager = GridLayoutManager(this, gameViewModel.getColumnSize())
+        val gridLayoutManager = GridLayoutManager(this,
+            gameViewModel.getColumnSize(gameDifficulty))
         gameRecycler.layoutManager = gridLayoutManager
         gameRecycler.setHasFixedSize(true)
         val cardAdapter = CardAdapter()
@@ -59,6 +62,6 @@ class GameActivity : AppCompatActivity() {
             }
         })
 
-        gameViewModel.prepareGame(intent.extras?.getInt(GAME_SIZE_KEY, GAME_SIZE_EASY))
+        gameViewModel.prepareGame(gameDifficulty)
     }
 }
