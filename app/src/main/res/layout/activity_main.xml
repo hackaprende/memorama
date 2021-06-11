@@ -10,6 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
+        android:background="@drawable/balloons"
         tools:context=".MainActivity">
 
         <TextView
@@ -28,6 +29,7 @@
             android:layout_height="wrap_content"
             android:textSize="16sp"
             android:layout_marginTop="80dp"
+            android:fontFamily="sans-serif-medium"
             android:layout_gravity="center_horizontal"
             android:textColor="@color/black"
             android:text="@string/choose_difficulty" />

@@ -55,8 +55,8 @@ class GameActivity : AppCompatActivity() {
         gameViewModel.gameLost.observe(this) {
             gameLost ->
             if (gameLost) {
-                Toast.makeText(this, "You will get it next time!", Toast.LENGTH_SHORT).show()
-                finish()
+                binding.sadAnimation.playAnimation()
+                binding.blockingView.setOnClickListener(null)
             }
         }
 
