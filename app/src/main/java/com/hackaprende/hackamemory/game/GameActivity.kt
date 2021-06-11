@@ -1,13 +1,15 @@
 package com.hackaprende.hackamemory.game
 
 import android.os.Bundle
-import android.widget.Toast
+import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import com.hackaprende.hackamemory.R
 import com.hackaprende.hackamemory.databinding.ActivityGameBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class GameActivity : AppCompatActivity() {
 
     companion object {
@@ -49,6 +51,8 @@ class GameActivity : AppCompatActivity() {
             gameWon ->
             if (gameWon) {
                 binding.confetti.playAnimation()
+                binding.confetti.visibility = View.VISIBLE
+                binding.sadAnimation.visibility = View.GONE
             }
         }
 
@@ -56,6 +60,8 @@ class GameActivity : AppCompatActivity() {
             gameLost ->
             if (gameLost) {
                 binding.sadAnimation.playAnimation()
+                binding.sadAnimation.visibility = View.VISIBLE
+                binding.confetti.visibility = View.GONE
                 binding.blockingView.setOnClickListener(null)
             }
         }

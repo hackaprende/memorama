@@ -5,6 +5,8 @@ import android.os.Looper
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
 private const val NUMBER_OF_COLUMNS_EASY = 4
 private const val NUMBER_OF_COLUMNS_NORMAL = 2
@@ -19,7 +21,10 @@ private const val NUMBER_OF_ROWS_VERY_HARD = 4
 private const val TIME_TO_WAIT = 1000L
 private const val TOTAL_ATTEMPTS = 10
 
-class GameViewModel: ViewModel() {
+@HiltViewModel
+class GameViewModel @Inject constructor(
+    private val repository: GameTasks
+    ): ViewModel() {
     private var cardsShown = 0
 
     private val _gameCards = MutableLiveData<MutableList<MemoryCard>>()
@@ -39,8 +44,6 @@ class GameViewModel: ViewModel() {
         get() = _totalAttempts
 
     private val wonCards = mutableListOf<MemoryCard>()
-
-    private val repository = GameRepository()
 
     private var evaluatingClick = false
 

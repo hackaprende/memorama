@@ -1,10 +1,11 @@
 package com.hackaprende.hackamemory.game
 
-import com.hackaprende.hackamemory.data.LocalDataSource
+import com.hackaprende.hackamemory.data.LocalDataSourceTasks
+import javax.inject.Inject
 
-class GameRepository {
+class GameRepository @Inject constructor(private val localDataSource: LocalDataSourceTasks) :
+    GameTasks {
 
-    fun getCardsForGame(numberOfRows: Int, numberOfColumns: Int): MutableList<MemoryCard> {
-        return LocalDataSource().getCardsForGame(numberOfRows, numberOfColumns)
-    }
+    override fun getCardsForGame(numberOfRows: Int, numberOfColumns: Int): MutableList<MemoryCard> =
+        localDataSource.getCardsForGame(numberOfRows, numberOfColumns)
 }
