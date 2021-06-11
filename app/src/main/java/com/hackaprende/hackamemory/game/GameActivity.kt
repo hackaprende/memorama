@@ -12,10 +12,10 @@ class GameActivity : AppCompatActivity() {
 
     companion object {
         const val GAME_SIZE_KEY = "game_size"
-        const val GAME_SIZE_EASY = 0
-        const val GAME_SIZE_NORMAL = 1
-        const val GAME_SIZE_HARD = 2
-        const val GAME_SIZE_VERY_HARD = 3
+        const val GAME_DIFFICULTY_EASY = 0
+        const val GAME_DIFFICULTY_NORMAL = 1
+        const val GAME_DIFFICULTY_HARD = 2
+        const val GAME_DIFFICULTY_VERY_HARD = 3
     }
 
     private val gameViewModel: GameViewModel by viewModels()
@@ -29,7 +29,7 @@ class GameActivity : AppCompatActivity() {
             onBackPressed()
         }
 
-        val gameDifficulty = intent.extras?.getInt(GAME_SIZE_KEY, GAME_SIZE_EASY)
+        val gameDifficulty = intent.extras?.getInt(GAME_SIZE_KEY, GAME_DIFFICULTY_EASY)
 
         val gameRecycler = binding.recycler
 
@@ -48,7 +48,7 @@ class GameActivity : AppCompatActivity() {
         gameViewModel.gameWon.observe(this) {
             gameWon ->
             if (gameWon) {
-                Toast.makeText(this, "You won!!!!!!", Toast.LENGTH_SHORT).show()
+                binding.confetti.playAnimation()
             }
         }
 

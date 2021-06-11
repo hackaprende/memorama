@@ -58,12 +58,12 @@ class GameViewModel: ViewModel() {
 
     fun evaluateClickedCard(cardIndex: Int, card: MemoryCard) {
         if (!evaluatingClick) {
-            evaluatingClick= true
-            cardsShown++
+            evaluatingClick = true
             val gameCardList = _gameCards.value!!
             gameCardList[cardIndex].isChecked = true
             _gameCards.value = gameCardList
 
+            cardsShown++
             if (cardsShown == 2) {
                 if (cardIsPair(card)) {
                     wonCards.add(card)
@@ -78,8 +78,8 @@ class GameViewModel: ViewModel() {
 
                     val handler = Handler(Looper.getMainLooper())
                     val runnable = Runnable {
-                        evaluatingClick = false
                         uncheckNotWonCards()
+                        evaluatingClick = false
                     }
                     handler.postDelayed(runnable, TIME_TO_WAIT)
                 }
@@ -99,20 +99,20 @@ class GameViewModel: ViewModel() {
     fun getColumnSize(gameDifficulty: Int? = 0): Int {
         // Game is easy by default
         return when (gameDifficulty) {
-            GameActivity.GAME_SIZE_EASY -> NUMBER_OF_COLUMNS_EASY
-            GameActivity.GAME_SIZE_NORMAL -> NUMBER_OF_COLUMNS_NORMAL
-            GameActivity.GAME_SIZE_HARD -> NUMBER_OF_COLUMNS_HARD
-            GameActivity.GAME_SIZE_VERY_HARD -> NUMBER_OF_COLUMNS_VERY_HARD
+            GameActivity.GAME_DIFFICULTY_EASY -> NUMBER_OF_COLUMNS_EASY
+            GameActivity.GAME_DIFFICULTY_NORMAL -> NUMBER_OF_COLUMNS_NORMAL
+            GameActivity.GAME_DIFFICULTY_HARD -> NUMBER_OF_COLUMNS_HARD
+            GameActivity.GAME_DIFFICULTY_VERY_HARD -> NUMBER_OF_COLUMNS_VERY_HARD
             else -> NUMBER_OF_COLUMNS_EASY
         }
     }
 
     private fun getRowSize(gameDifficulty: Int? = 0): Int {
         return when (gameDifficulty) {
-            GameActivity.GAME_SIZE_EASY -> NUMBER_OF_ROWS_EASY
-            GameActivity.GAME_SIZE_NORMAL -> NUMBER_OF_ROWS_NORMAL
-            GameActivity.GAME_SIZE_HARD -> NUMBER_OF_ROWS_HARD
-            GameActivity.GAME_SIZE_VERY_HARD -> NUMBER_OF_ROWS_VERY_HARD
+            GameActivity.GAME_DIFFICULTY_EASY -> NUMBER_OF_ROWS_EASY
+            GameActivity.GAME_DIFFICULTY_NORMAL -> NUMBER_OF_ROWS_NORMAL
+            GameActivity.GAME_DIFFICULTY_HARD -> NUMBER_OF_ROWS_HARD
+            GameActivity.GAME_DIFFICULTY_VERY_HARD -> NUMBER_OF_ROWS_VERY_HARD
             else -> NUMBER_OF_ROWS_EASY
         }
     }

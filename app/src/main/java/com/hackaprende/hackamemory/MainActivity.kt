@@ -17,19 +17,19 @@ class MainActivity : AppCompatActivity() {
 
     private fun setupButtons(binding: ActivityMainBinding) {
         binding.easyButton.setOnClickListener {
-            startGameActivity(GameActivity.GAME_SIZE_EASY)
+            startGameActivity(GameActivity.GAME_DIFFICULTY_EASY)
         }
 
         binding.normalButton.setOnClickListener {
-            startGameActivity(GameActivity.GAME_SIZE_NORMAL)
+            startGameActivity(GameActivity.GAME_DIFFICULTY_NORMAL)
         }
 
         binding.hardButton.setOnClickListener {
-            startGameActivity(GameActivity.GAME_SIZE_HARD)
+            startGameActivity(GameActivity.GAME_DIFFICULTY_HARD)
         }
 
         binding.veryHardButton.setOnClickListener {
-            startGameActivity(GameActivity.GAME_SIZE_VERY_HARD)
+            startGameActivity(GameActivity.GAME_DIFFICULTY_VERY_HARD)
         }
     }
 
